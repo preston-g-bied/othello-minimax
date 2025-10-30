@@ -22,8 +22,14 @@ class RandomAgent(game.Player):
         super().__init__()
 
     def choose_move(self, state):
-        # pick a random move from the moves list
+        # generate possible moves
         moves = state.generateMoves()
+
+        # if no available moves, pass
+        if len(moves) == 0:
+            return None
+
+        # pick a random move from the moves list
         return random.choice(moves)
 
 
