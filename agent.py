@@ -3,12 +3,14 @@ import random
 
 import game
 
+from othello import State
+
 class HumanPlayer(game.Player):
 
     def __init__(self):
         super().__init__()
 
-    def choose_move(self, state):
+    def choose_move(self, state: State):
         # generate the list of moves:
         moves = state.generateMoves()
 
@@ -21,7 +23,7 @@ class RandomAgent(game.Player):
     def __init__(self):
         super().__init__()
 
-    def choose_move(self, state):
+    def choose_move(self, state: State):
         # generate possible moves
         moves = state.generateMoves()
 
@@ -34,8 +36,49 @@ class RandomAgent(game.Player):
 
 
 class MinimaxAgent(game.Player):
-    pass
+    def __init__(self, depth: int = 3):
+        super().__init__()
+        self.depth = depth
 
+    def choose_move(self, state: State):
+        _, best_move = self.minimax(state, self.depth, True)
+        return best_move
+    
+    def minimax(self, state: State, depth: int, max_player: bool):
+        # if terminal state or max depth reached, return utility function (score)
+        if state.game_over() or depth == 0:
+            return state.score(), None
+        
+        # generate moves
+        moves = state.generateMoves()
+        if len(moves) == 0:
+            moves = [None]
+        
+        if max_player:
+            max_value = float('-inf')
+            best_move = None
+            # loop through possible moves
+            for move in moves:
+                # apply move and pass to min_player, with decreased depth
+                value, _ = self.minimax(state.applyMoveCloning(move), depth - 1, False)
+                # see if new eval is better (bigger) than current max
+                if value > max_value:
+                    max_value = value
+                    best_move = move
+            return max_value, best_move
+        else:
+            # else you are min_player
+            min_value = float('inf')
+            best_move = None
+            # loop through possible moves
+            for move in moves:
+                # apply move and pass to max_player, with decreased depth
+                value, _ = self.minimax(state.applyMoveCloning(move), depth - 1, True)
+                # see if new eval is better (smaller) thn current min
+                if value < min_value:
+                    min_value = value
+                    best_move = move
+            return min_value, best_move
 
 class AlphaBeta(game.Player):
     pass
