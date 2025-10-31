@@ -41,7 +41,10 @@ class MinimaxAgent(game.Player):
         self.depth = depth
 
     def choose_move(self, state: State):
-        _, best_move = self.minimax(state, self.depth, True)
+        # PLAYER1 (O) = 0: wants to maximize
+        # PLAYER2 (X) = 1: wants to minimize
+        is_max_player = (state.nextPlayerToMove == 0)
+        _, best_move = self.minimax(state, self.depth, is_max_player)
         return best_move
     
     def minimax(self, state: State, depth: int, max_player: bool):
@@ -86,7 +89,10 @@ class AlphaBeta(game.Player):
         self.depth = depth
 
     def choose_move(self, state: State):
-        _, best_move = self.minimax(state, self.depth, True, float('-inf'), float('inf'))
+        # PLAYER1 (O) = 0: wants to maximize
+        # PLAYER2 (X) = 1: wants to minimize
+        is_max_player = (state.nextPlayerToMove == 0)
+        _, best_move = self.minimax(state, self.depth, is_max_player, float('-inf'), float('inf'))
         return best_move
     
     def minimax(self, state: State, depth: int, max_player: bool, alpha: float, beta: float):
