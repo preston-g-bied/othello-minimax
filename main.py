@@ -13,7 +13,8 @@ def create_player(arg,  depth_or_time):
     elif arg == 'alphabeta':
         return agent.AlphaBeta(depth_or_time)
     elif arg == 'extra':
-        return agent.extra(depth_or_time)
+        import pgb46
+        return pgb46.pgb46(depth_or_time)
     else:
         agent.RandomAgent()
 

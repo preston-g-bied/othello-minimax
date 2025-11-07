@@ -1,8 +1,10 @@
 import math
 import random
+import time
 
 import game
 
+import othello
 from othello import State
 
 class HumanPlayer(game.Player):
@@ -43,7 +45,7 @@ class MinimaxAgent(game.Player):
     def choose_move(self, state: State):
         # PLAYER1 (O) = 0: wants to maximize
         # PLAYER2 (X) = 1: wants to minimize
-        is_max_player = (state.nextPlayerToMove == 0)
+        is_max_player = (state.nextPlayerToMove == othello.PLAYER1)
         _, best_move = self.minimax(state, self.depth, is_max_player)
         return best_move
     
@@ -91,7 +93,7 @@ class AlphaBeta(game.Player):
     def choose_move(self, state: State):
         # PLAYER1 (O) = 0: wants to maximize
         # PLAYER2 (X) = 1: wants to minimize
-        is_max_player = (state.nextPlayerToMove == 0)
+        is_max_player = (state.nextPlayerToMove == othello.PLAYER1)
         _, best_move = self.minimax(state, self.depth, is_max_player, float('-inf'), float('inf'))
         return best_move
     
