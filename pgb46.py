@@ -38,11 +38,11 @@ class pgb46(game.Player):
                 # time ran out during search
                 break
 
-            # if no move was found, pick first available move
-            if best_move is None:
-                moves = state.generateMoves()
-                if len(moves) > 0:
-                    best_move = moves[0]
+        # if no move was found, pick first available move
+        if best_move is None:
+            moves = state.generateMoves()
+            if len(moves) > 0:
+                best_move = moves[0]
 
         return best_move
     
